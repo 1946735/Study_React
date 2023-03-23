@@ -8,17 +8,46 @@
 <script src =https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js></script>
 <script src =https://unpkg.com/@babel/standalone/babel.min.js></script>
 <script type="text/babel">
-  const root = document.getElementById("root");
+ 
  
  function App() {  
-  const [counter, setCounter] = React.useState(0); // function 안에 설정
-  const onClick = () => {
-    setCounter(counter + 1);
+  const [amount,setAmount] = React.useState(0); // function 안에 설정
+  const [inverted, setInverted] = React.useState(false);
+  const onChange = (event) => {
+    setAmount(event.target.value);
   };
+  const Reset = () => setAmount(0);
+  const onInvert = () => {
+  Reset();   
+  setInverted(current => !current);
+}
     return (
       <div>
-         <h3>Total Clicks : {counter}</h3> 
-        <button onClick={onClick}>Click me!</button>
+          <div>
+          <label>Minutes</label>
+          <input
+          value = {inverted ? amount*60 : amount}
+          id = "minutes"
+          htmlFor = "minutes"
+          placeholder = "Minutes"
+          type="number"
+          onChange = {onChange}
+          disabled = {inverted}//false -> 보임
+          />
+          </div>
+          <div>
+         <label>Hour</label>
+         <input
+         value = {inverted ? amount : Math.round(amount/60)}
+         id = "Hours"
+         htmlFor = "Hours" 
+         type="number"
+         disabled = {!inverted}// true -> 안보임
+         onChange = {onChange}
+         />
+          </div>
+          <button onClick={Reset}>Reset</button>
+          <button onClick={onInvert}>{inverted ? "Turnback" : "Inverte"}</button>
       </div>
     );
   
@@ -28,3 +57,4 @@
 
 </script>
 </html>
+
